@@ -52,11 +52,11 @@ Attempts to download a video from the given url. Returns a [readable stream](htt
 * `range` - A byte range in the form `{start: INT, end: INT}` that specifies part of the file to download, ie {start: 10355705, end: 12452856}.
   * This downloads a portion of the file, and not a separately spliced video.
 * `begin` - What time in the video to begin. Supports formats `00:00:00.000`, `0ms, 0s, 0m, 0h`, or number of milliseconds. Example: `1:30`, `05:10.123`, `10m30s`.
-  * For live videos, this also accepts a unix timestamp or Date, and defaults to `Date.now()`.
-  * This option is not very reliable, see [#129](https://github.com/fent/node-ytdl-core/issues/129), [#219](https://github.com/fent/node-ytdl-core/issues/219).
+  * For live videos, this also accepts a unix timestamp or Date object, and defaults to `Date.now()`.
+  * This option is not very reliable for non-live videos, see [#129](https://github.com/fent/node-ytdl-core/issues/129), [#219](https://github.com/fent/node-ytdl-core/issues/219).
 * `liveBuffer` - How much time buffer to use for live videos in milliseconds. Default is `20000`.
 * `requestOptions` - Anything to merge into the request options which [miniget](https://github.com/fent/node-miniget) is called with, such as `headers`.
-* `highWaterMark` - How much of the video download to buffer into memory. See [node's docs](https://nodejs.org/api/stream.html#stream_constructor_new_stream_writable_options) for more.
+* `highWaterMark` - How much of the video download to buffer into memory. See [node's docs](https://nodejs.org/api/stream.html#stream_constructor_new_stream_writable_options) for more. Defaults to 512KB.
 * `lang` - The 2 character symbol of a language. Default is `en`.
 
 #### Event: info
@@ -183,7 +183,15 @@ Or for Yarn users:
 yarn add ytdl-core@latest
 ```
 
-If you're using a bot or app that uses ytdl-core, it may be dependent on an older version. Make sure you're installing the latest version of ytdl-core to keep up with the latest fixes.
+Make sure you're installing the latest version of ytdl-core to keep up with the latest fixes.
+
+If you're using a bot or app that uses ytdl-core such as [ytdl-core-discord](https://github.com/amishshah/ytdl-core-discord) or [discord-player](https://github.com/Androz2091/discord-player), it may be dependent on an older version. To update its ytdl-core version, you'll have to fork the project and update its `package.json` file, you can't simply change the version on your project's `package.json`, the app will still use its own older version of ytdl-core.
+
+You can then submit a pull request to their project and point to your fork temporarily. You can also check their pull request and check if there's one open already, and point to that instead. To point to a github's repo's branch in your `package.json`, you can do
+
+```json
+  "ytdl-core-discord": "amishshah/ytdl-core-discord#dependabot/npm_and_yarn/ytdl-core-2.0.1"
+```
 
 # Related Projects
 
